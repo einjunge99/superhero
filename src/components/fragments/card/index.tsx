@@ -1,3 +1,4 @@
+import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
 
 // TODO: Set to Superhero interface once created
@@ -37,7 +38,18 @@ export const Card: React.FC<IProps> = ({
           >
             Real name: {fullName}
           </h3>
-          <h4>8.4/10</h4>
+          <div
+            style={{
+              display: "flex",
+              gap: "4px",
+            }}
+          >
+            <Icon name="fist" />
+            <h4>8.4/10</h4>
+          </div>
+        </div>
+        <div className={styles.icon}>
+          <Icon name="medium-filled-heart" shape="circle" fillColor="#6A4DBC" />
         </div>
       </div>
     </div>
