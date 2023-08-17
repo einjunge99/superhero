@@ -49,7 +49,7 @@ export const Icon: React.FC<IProps> = ({
       src={svgUrl}
       alt={name}
       style={{
-        fontSize: size,
+        transform: `scale(${size})`,
       }}
     />
   );

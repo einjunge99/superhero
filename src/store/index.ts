@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 type State = {
-  favorites: number[];
+  favoritesIds: number[];
 };
 
 type Action = {
@@ -13,12 +13,12 @@ type Action = {
 export const useStore = create<State & Action>()(
   persist(
     (set) => ({
-      favorites: [],
+      favoritesIds: [],
       addFavorite: (id: number) =>
-        set((state) => ({ favorites: [...state.favorites, id] })),
+        set((state) => ({ favoritesIds: [...state.favoritesIds, id] })),
       removeFavorite: (id: number) =>
         set((state) => ({
-          favorites: state.favorites.filter((item) => item !== id),
+          favoritesIds: state.favoritesIds.filter((item) => item !== id),
         })),
     }),
     {

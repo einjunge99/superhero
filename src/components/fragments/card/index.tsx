@@ -1,8 +1,10 @@
+import { CSSProperties } from "react";
 import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
 
 // TODO: Set to Superhero interface once created
 interface IProps {
+  style?: CSSProperties;
   superhero: {
     image: string;
     name: string;
@@ -12,9 +14,10 @@ interface IProps {
 
 export const Card: React.FC<IProps> = ({
   superhero: { fullName, image, name },
+  style,
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={style}>
       <div
         className={styles.image}
         style={{
