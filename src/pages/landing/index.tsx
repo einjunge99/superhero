@@ -6,16 +6,7 @@ import { Card } from "../../components/fragments/card";
 import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
 
-function duplicateArrayNTimes(array, n: number) {
-  return [].concat(...Array(n).fill(array));
-}
-
-function calculateColumns(width: number, minCardWidth: number) {
-  const columns = Math.floor(width / minCardWidth);
-  return columns < 1 ? 1 : columns;
-}
-
-const superheros = [
+const rawSuperheroes = [
   {
     id: 1,
     name: "A-Bomb",
@@ -198,14 +189,12 @@ const superheros = [
   },
 ];
 
-const parsedSuperheros = duplicateArrayNTimes(superheros, 10).map(
-  (superhero) => ({
-    id: superhero.id,
-    image: superhero.images.sm,
-    name: superhero.name,
-    fullName: superhero.biography.fullName,
-  })
-);
+const parsedSuperheroes = rawSuperheroes.map((superhero) => ({
+  id: superhero.id,
+  image: superhero.images.sm,
+  name: superhero.name,
+  fullName: superhero.biography.fullName,
+}));
 
 const Cell: React.FC<GridChildComponentProps> = ({
   columnIndex,
@@ -215,8 +204,13 @@ const Cell: React.FC<GridChildComponentProps> = ({
 }) => {
   const [handleFavorites] = useStore((state) => [state.handleFavorites]);
 
+  const { superheroes, linearIndex } = data;
   const itemIndex = linearIndex(rowIndex, columnIndex);
-  const superhero = data[itemIndex];
+  const superhero = superheroes[itemIndex];
+  if (!superhero) {
+    return null;
+  }
+
   return (
     <Card
       superhero={superhero}
@@ -232,36 +226,85 @@ const Cell: React.FC<GridChildComponentProps> = ({
   );
 };
 
-const COLUMN_COUNT = 4;
+export interface ISuperhero {
+  id: number;
+  image: string;
+  name: string;
+  fullName: string;
+}
+
 const GUTTER_SIZE = 10;
-const ROW_COUNT = Math.ceil(parsedSuperheros.length / COLUMN_COUNT);
 const COLUMN_WIDTH = 285;
 const PADDING = 129;
 
-const linearIndex = (rowIndex: number, columnIndex: number) => {
-  return rowIndex * COLUMN_COUNT + columnIndex;
-};
-
 export const LandingPage = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [columnCount, setColumnCount] = useState<number>();
+  const [rowCount, setRowCount] = useState<number>();
+  const [favoritesIds] = useStore((state) => [state.favoritesIds]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [superheroes, setSuperheroes] = useState<ISuperhero[]>([]);
+  const [filteredSuperheroes, setFilteredSuperheroes] = useState<ISuperhero[]>(
+    []
+  );
+
   const windowHeight = window.innerHeight;
-  const [columnCount, setColumnCount] = useState(COLUMN_COUNT);
+
+  useEffect(() => {
+    // TODO: Fetch superheroes
+    setSuperheroes(parsedSuperheroes);
+  }, []);
+
+  useEffect(() => {
+    const filtered = superheroes.filter((superhero) => {
+      const { id, name, fullName } = superhero;
+      const normalizedQuery = searchQuery.toLowerCase();
+      return (
+        !favoritesIds.includes(id) &&
+        (name.toLowerCase().includes(normalizedQuery) ||
+          fullName.toLowerCase().includes(normalizedQuery))
+      );
+    });
+    setFilteredSuperheroes(filtered);
+  }, [superheroes, favoritesIds, searchQuery]);
+
+  useEffect(() => {
+    const columnCount = calculateColumns(
+      windowWidth - PADDING * 2,
+      COLUMN_WIDTH
+    );
+    const rowCount = Math.ceil(filteredSuperheroes.length / columnCount);
+    setColumnCount(columnCount);
+    setRowCount(rowCount);
+  }, [columnCount, windowWidth, filteredSuperheroes]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
 
-  useEffect(() => {
-    setColumnCount(calculateColumns(windowWidth - PADDING * 2, COLUMN_WIDTH));
-  }, [columnCount, windowWidth]);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
+  const calculateColumns = (width: number, minCardWidth: number) => {
+    const columns = Math.floor(width / minCardWidth);
+    return columns < 1 ? 1 : columns;
+  };
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const linearIndex = (rowIndex: number, columnIndex: number) => {
+    if (!columnCount) {
+      return;
+    }
+    return rowIndex * columnCount + columnIndex;
+  };
 
   return (
     <div
@@ -272,7 +315,7 @@ export const LandingPage = () => {
         padding: `0 ${PADDING}px`,
       }}
     >
-      <Liked superheros={parsedSuperheros} />
+      <Liked superheroes={superheroes} />
       <div
         style={{
           display: "flex",
@@ -293,7 +336,7 @@ export const LandingPage = () => {
               flex: "3",
             }}
           >
-            All superheros
+            All superheroes
           </div>
           <div
             style={{
@@ -302,22 +345,28 @@ export const LandingPage = () => {
           >
             <Input
               placeholder="Search"
+              onChange={handleSearch}
               prefix={<Icon name="search" />}
               suffix={<Icon name="cancel" />}
             />
           </div>
         </div>
-        <Grid
-          columnCount={columnCount}
-          columnWidth={COLUMN_WIDTH}
-          rowCount={ROW_COUNT}
-          rowHeight={174}
-          height={windowHeight * (2 / 3)}
-          width={columnCount * COLUMN_WIDTH}
-          itemData={parsedSuperheros}
-        >
-          {Cell}
-        </Grid>
+        {rowCount !== undefined && columnCount !== undefined && (
+          <Grid
+            columnCount={columnCount}
+            columnWidth={COLUMN_WIDTH}
+            rowCount={rowCount}
+            rowHeight={174}
+            height={windowHeight * (2 / 3)}
+            width={columnCount * COLUMN_WIDTH}
+            itemData={{
+              superheroes: filteredSuperheroes,
+              linearIndex,
+            }}
+          >
+            {Cell}
+          </Grid>
+        )}
       </div>
     </div>
   );

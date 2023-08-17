@@ -1,22 +1,22 @@
+import { ISuperhero } from "../..";
 import { Icon } from "../../../../components/elements/icon";
 import { Card } from "../../../../components/fragments/card";
 import { Collapsible } from "../../../../components/fragments/collapsible";
 import { useStore } from "../../../../store";
 
 interface IProps {
-  superheros: [];
+  superheroes: ISuperhero[];
 }
 
-export const Liked: React.FC<IProps> = ({ superheros }) => {
+export const Liked: React.FC<IProps> = ({ superheroes }) => {
   const [favoritesIds, handleFavorites] = useStore((state) => [
     state.favoritesIds,
     state.handleFavorites,
   ]);
 
-  const favorites =
-    favoritesIds.map((id) => {
-      return superheros.find((superhero) => superhero.id === id);
-    }) || [];
+  const favorites = superheroes.filter((superhero) =>
+    favoritesIds.includes(superhero.id)
+  );
 
   return (
     <Collapsible

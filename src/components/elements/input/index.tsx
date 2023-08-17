@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import cx from "classnames";
 
 interface IProps {
-  onChange?: (e: React.InputHTMLAttributes<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: React.InputHTMLAttributes<HTMLInputElement>["value"];
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   placeholder?: string;
