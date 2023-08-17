@@ -8,9 +8,9 @@ interface IProps {
 }
 
 export const Liked: React.FC<IProps> = ({ superheros }) => {
-  const [favoritesIds, removeFavorite] = useStore((state) => [
+  const [favoritesIds, handleFavorites] = useStore((state) => [
     state.favoritesIds,
-    state.removeFavorite,
+    state.handleFavorites,
   ]);
 
   const favorites =
@@ -33,7 +33,10 @@ export const Liked: React.FC<IProps> = ({ superheros }) => {
       {favorites.length > 0 ? (
         <>
           {favorites.map((favorite) => (
-            <Card superhero={favorite} />
+            <Card
+              superhero={favorite}
+              onClick={() => handleFavorites(favorite.id)}
+            />
           ))}
         </>
       ) : (

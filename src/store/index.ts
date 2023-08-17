@@ -6,20 +6,24 @@ type State = {
 };
 
 type Action = {
-  addFavorite: (id: number) => void;
-  removeFavorite: (id: number) => void;
+  handleFavorites: (id: number) => void;
 };
 
 export const useStore = create<State & Action>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       favoritesIds: [],
-      addFavorite: (id: number) =>
-        set((state) => ({ favoritesIds: [...state.favoritesIds, id] })),
-      removeFavorite: (id: number) =>
-        set((state) => ({
+      handleFavorites: (id: number) => {
+        const { favoritesIds } = get();
+        if (!favoritesIds.includes(id)) {
+          return set((state) => ({
+            favoritesIds: [...state.favoritesIds, id],
+          }));
+        }
+        return set((state) => ({
           favoritesIds: state.favoritesIds.filter((item) => item !== id),
-        })),
+        }));
+      },
     }),
     {
       name: "superheros-storage",

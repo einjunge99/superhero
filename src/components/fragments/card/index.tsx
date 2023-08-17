@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 
 // TODO: Set to Superhero interface once created
 interface IProps {
+  onClick: () => void;
   style?: CSSProperties;
   superhero: {
     image: string;
@@ -15,6 +16,7 @@ interface IProps {
 export const Card: React.FC<IProps> = ({
   superhero: { fullName, image, name },
   style,
+  onClick,
 }) => {
   return (
     <div className={styles.container} style={style}>
@@ -52,7 +54,12 @@ export const Card: React.FC<IProps> = ({
           </div>
         </div>
         <div className={styles.icon}>
-          <Icon name="medium-filled-heart" shape="circle" fillColor="#6A4DBC" />
+          <Icon
+            name="medium-filled-heart"
+            shape="circle"
+            fillColor="#6A4DBC"
+            onClick={onClick}
+          />
         </div>
       </div>
     </div>

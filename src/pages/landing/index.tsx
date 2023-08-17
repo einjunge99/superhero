@@ -200,6 +200,7 @@ const superheros = [
 
 const parsedSuperheros = duplicateArrayNTimes(superheros, 10).map(
   (superhero) => ({
+    id: superhero.id,
     image: superhero.images.sm,
     name: superhero.name,
     fullName: superhero.biography.fullName,
@@ -212,11 +213,14 @@ const Cell: React.FC<GridChildComponentProps> = ({
   data,
   style,
 }) => {
+  const [handleFavorites] = useStore((state) => [state.handleFavorites]);
+
   const itemIndex = linearIndex(rowIndex, columnIndex);
   const superhero = data[itemIndex];
   return (
     <Card
       superhero={superhero}
+      onClick={() => handleFavorites(superhero.id)}
       style={{
         ...style,
         left: style.left + GUTTER_SIZE,
@@ -242,11 +246,6 @@ export const LandingPage = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const windowHeight = window.innerHeight;
   const [columnCount, setColumnCount] = useState(COLUMN_COUNT);
-
-  const [favoritesIds, addFavorite] = useStore((state) => [
-    state.favoritesIds,
-    state.addFavorite,
-  ]);
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
