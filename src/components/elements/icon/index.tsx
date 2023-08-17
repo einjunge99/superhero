@@ -3,6 +3,7 @@ import mediumFilledHeart from "../../../assets/medium-filled-heart.svg";
 import fist from "../../../assets/fist.svg";
 import search from "../../../assets/search.svg";
 import cancel from "../../../assets/cancel.svg";
+import arrowUp from "../../../assets/arrow-up.svg";
 import styles from "./styles.module.scss";
 
 export type IconName =
@@ -10,7 +11,8 @@ export type IconName =
   | "medium-filled-heart"
   | "fist"
   | "search"
-  | "cancel";
+  | "cancel"
+  | "arrow-up";
 
 const iconMap: Record<IconName, string> = {
   "medium-heart": mediumHeart,
@@ -18,6 +20,7 @@ const iconMap: Record<IconName, string> = {
   fist: fist,
   search: search,
   cancel: cancel,
+  "arrow-up": arrowUp,
 };
 
 interface IProps {

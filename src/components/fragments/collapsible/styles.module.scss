@@ -1,0 +1,32 @@
+.collapsible {
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(106, 77, 188, 0.44);
+    background-color: rgba(106, 77, 188, 0.28);
+    transition: background-color 0.3s ease;
+
+    &.open {
+      background-color: transparent;
+    }
+  
+    .header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+  
+    .icon {
+      transition: transform 0.3s ease;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
