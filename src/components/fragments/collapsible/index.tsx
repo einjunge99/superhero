@@ -4,6 +4,8 @@ import cx from "classnames";
 
 interface IProps {
   title: ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
   children: ReactNode;
   icon: ReactNode;
   prefix?: ReactNode;
@@ -11,6 +13,8 @@ interface IProps {
 
 export const Collapsible: React.FC<IProps> = ({
   title,
+  isOpen: isOpenControlled,
+  onOpenChange,
   children,
   icon,
   prefix,
@@ -18,13 +22,18 @@ export const Collapsible: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCollapse = () => {
-    setIsOpen(!isOpen);
+    const result = isOpen || isOpenControlled;
+    setIsOpen(!result);
+    if (!onOpenChange) {
+      return;
+    }
+    onOpenChange(!result);
   };
 
   return (
     <div
       className={cx(styles.collapsible, {
-        [styles.open]: isOpen,
+        [styles.open]: isOpen || isOpenControlled,
       })}
     >
       <div className={styles.header} onClick={toggleCollapse}>
@@ -34,13 +43,15 @@ export const Collapsible: React.FC<IProps> = ({
         </div>
         <span
           className={cx(styles.icon, {
-            [styles.open]: isOpen,
+            [styles.open]: isOpen || isOpenControlled,
           })}
         >
           {icon}
         </span>
       </div>
-      {isOpen && <div className={styles.content}>{children}</div>}
+      {(isOpen || isOpenControlled) && (
+        <div className={styles.content}>{children}</div>
+      )}
     </div>
   );
 };

@@ -10,9 +10,16 @@ interface IProps {
 }
 
 export const Liked: React.FC<IProps> = ({ superheroes }) => {
-  const [favoritesIds, handleFavorites] = useStore((state) => [
+  const [
+    favoritesIds,
+    isCollapsibleOpen,
+    handleFavorites,
+    setIsCollapsibleOpen,
+  ] = useStore((state) => [
     state.favoritesIds,
+    state.isCollapsibleOpen,
     state.handleFavorites,
+    state.setIsCollapsibleOpen,
   ]);
 
   const favorites = superheroes.filter((superhero) =>
@@ -21,6 +28,8 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
 
   return (
     <Collapsible
+      isOpen={isCollapsibleOpen}
+      onOpenChange={setIsCollapsibleOpen}
       prefix={
         <Icon
           name="medium-heart"
