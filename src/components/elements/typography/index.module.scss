@@ -38,6 +38,14 @@
   letter-spacing: 0.273px;
 }
 
+.h5 {
+  composes: overrides;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
 /* PARAGRAPHS */
 .p {
   font-weight: 600;
