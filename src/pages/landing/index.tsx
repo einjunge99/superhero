@@ -235,7 +235,6 @@ export interface ISuperhero {
 
 const GUTTER_SIZE = 10;
 const COLUMN_WIDTH = 285;
-const PADDING = 129;
 
 export const LandingPage = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -270,10 +269,7 @@ export const LandingPage = () => {
   }, [superheroes, favoritesIds, searchQuery]);
 
   useEffect(() => {
-    const columnCount = calculateColumns(
-      windowWidth - PADDING * 2,
-      COLUMN_WIDTH
-    );
+    const columnCount = calculateColumns(windowWidth, COLUMN_WIDTH);
     const rowCount = Math.ceil(filteredSuperheroes.length / columnCount);
     setColumnCount(columnCount);
     setRowCount(rowCount);
@@ -307,40 +303,28 @@ export const LandingPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        padding: `0 ${PADDING}px`,
-      }}
-    >
+    <>
       <Liked superheroes={superheroes} />
+      <div style={{ marginTop: "50px" }} />
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
         }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            padding: "0 5px 0 20px",
+            width: "100%",
+            justifyContent: "space-between",
           }}
         >
+          <div>All superheroes</div>
           <div
             style={{
-              flex: "3",
-            }}
-          >
-            All superheroes
-          </div>
-          <div
-            style={{
-              flex: "2",
+              width: "371px",
             }}
           >
             <Input
@@ -351,6 +335,7 @@ export const LandingPage = () => {
             />
           </div>
         </div>
+        <div style={{ marginTop: "34px" }} />
         {rowCount !== undefined && columnCount !== undefined && (
           <Grid
             columnCount={columnCount}
@@ -368,6 +353,6 @@ export const LandingPage = () => {
           </Grid>
         )}
       </div>
-    </div>
+    </>
   );
 };
