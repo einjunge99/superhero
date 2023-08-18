@@ -24,9 +24,17 @@ export const Cell: React.FC<GridChildComponentProps> = ({
       onClick={() => handleFavorites(superhero.id)}
       style={{
         ...style,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         left: style.left + GUTTER_SIZE,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         top: style.top + GUTTER_SIZE,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         width: style.width - GUTTER_SIZE,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         height: style.height - GUTTER_SIZE,
       }}
     />
