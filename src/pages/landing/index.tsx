@@ -5,24 +5,14 @@ import { FixedSizeGrid as Grid } from "react-window";
 import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
 import Typography from "../../components/elements/typography";
-import superheroes from "../../__mocks__/superheroes.json";
 import { PADDING } from "../../components/layout";
 import styles from "./styles.module.scss";
 import { GUTTER_SIZE } from "./constants";
 import { Cell } from "./components/cell";
+import { useSuperheroes } from "../../services/superheroes";
 
-const rawSuperheroes = superheroes;
-
-const parsedSuperheroes = rawSuperheroes.map((superhero) => ({
-  id: superhero.id,
-  image: superhero.images.sm,
-  name: superhero.name,
-  fullName: superhero.biography.fullName,
-  score: (
-    Object.values(superhero.powerstats).reduce((acc, value) => acc + value) /
-    (Object.keys(superhero.powerstats).length * 10)
-  ).toFixed(1),
-}));
+// TODO: Scroll when card is selected
+// TODO: Change heart icon to filled if it's on the favorites list
 
 export interface ISuperhero {
   id: number;
@@ -47,12 +37,29 @@ export const LandingPage = () => {
     []
   );
 
+  const { superherores: rawSuperheroes, isLoading } = useSuperheroes();
+
   const windowHeight = window.innerHeight;
 
   useEffect(() => {
-    // TODO: Fetch superheroes
+    if (isLoading || !rawSuperheroes) {
+      return;
+    }
+    const parsedSuperheroes = rawSuperheroes.map((superhero) => ({
+      id: superhero.id,
+      image: superhero.images.sm,
+      name: superhero.name,
+      fullName: superhero.biography.fullName,
+      score: (
+        Object.values(superhero.powerstats).reduce(
+          (acc, value) => acc + value
+        ) /
+        (Object.keys(superhero.powerstats).length * 10)
+      ).toFixed(1),
+    }));
+
     setSuperheroes(parsedSuperheroes);
-  }, []);
+  }, [isLoading, rawSuperheroes]);
 
   useEffect(() => {
     const filtered = superheroes.filter((superhero) => {
