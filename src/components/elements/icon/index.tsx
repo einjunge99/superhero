@@ -27,6 +27,7 @@ interface IProps {
   name: IconName;
   size?: string;
   shape?: "circle";
+  shapeSize?: string;
   fillColor?: string;
   onClick?: () => void;
 }
@@ -35,6 +36,7 @@ export const Icon: React.FC<IProps> = ({
   name,
   size,
   shape,
+  shapeSize = "50px",
   fillColor,
   onClick,
 }) => {
@@ -62,6 +64,8 @@ export const Icon: React.FC<IProps> = ({
       className={styles[shape]}
       style={{
         backgroundColor: fillColor,
+        width: shapeSize,
+        height: shapeSize,
       }}
     >
       {icon}

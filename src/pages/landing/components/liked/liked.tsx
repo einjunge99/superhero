@@ -20,13 +20,21 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
 
   return (
     <Collapsible
-      prefix={<Icon name="medium-heart" fillColor="#6A4DBC" shape="circle" />}
+      prefix={
+        <Icon
+          name="medium-heart"
+          fillColor="#6A4DBC"
+          shape="circle"
+          shapeSize="35px"
+        />
+      }
       title="Liked"
       icon={
         <Icon
           name="arrow-up"
           fillColor="rgba(255, 255, 255, 0.10)"
           shape="circle"
+          shapeSize="35px"
         />
       }
     >
