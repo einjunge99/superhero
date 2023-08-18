@@ -11,8 +11,8 @@ import { GUTTER_SIZE } from "./constants";
 import { Cell } from "./components/cell";
 import { useSuperheroes } from "../../services/superheroes";
 
-// TODO: Scroll when card is selected
 // TODO: Change heart icon to filled if it's on the favorites list
+// TODO: If rendering, show a skeleton component instead
 
 export interface ISuperhero {
   id: number;

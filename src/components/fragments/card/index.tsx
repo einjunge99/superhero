@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
 import Typography from "../../elements/typography";
@@ -10,16 +10,28 @@ interface IProps {
   style?: CSSProperties;
   superhero: ISuperhero;
   showPill?: boolean;
+  scrollIntoView?: boolean;
+  isFavorite?: boolean;
 }
 
 export const Card: React.FC<IProps> = ({
   superhero: { fullName, image, name, score },
   showPill,
+  scrollIntoView,
+  isFavorite,
   style,
   onClick,
 }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (ref.current && scrollIntoView) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [scrollIntoView]);
+
   return (
-    <div className={styles.container} style={style}>
+    <div className={styles.container} style={style} ref={ref}>
       {showPill && <Pill label="Liked recently" className={styles.pill} />}
       <div
         className={styles.image}
@@ -61,7 +73,7 @@ export const Card: React.FC<IProps> = ({
         </div>
         <div className={styles.icon}>
           <Icon
-            name="medium-filled-heart"
+            name={isFavorite ? "medium-filled-heart" : "medium-heart"}
             shape="circle"
             fillColor="#6A4DBC"
             onClick={onClick}

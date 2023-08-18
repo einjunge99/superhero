@@ -52,6 +52,8 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
               superhero={favorite}
               onClick={() => handleFavorites(favorite.id)}
               showPill={index + 1 === favorites.length}
+              scrollIntoView={true}
+              isFavorite
             />
           ))}
         </div>
