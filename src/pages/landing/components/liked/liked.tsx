@@ -2,10 +2,11 @@ import styles from "./styles.module.scss";
 import { ISuperhero } from "../..";
 import { Icon } from "../../../../components/elements/icon";
 import Typography from "../../../../components/elements/typography";
-import { Card } from "../../../../components/fragments/card";
+import { MotionCard } from "../../../../components/fragments/card";
 import { Collapsible } from "../../../../components/fragments/collapsible";
 import { CustomSkeleton } from "../../../../components/fragments/skeleton/skeleton";
 import { useStore } from "../../../../store";
+import { AnimatePresence } from "framer-motion";
 
 interface IProps {
   superheroes: ISuperhero[];
@@ -62,16 +63,22 @@ export const Liked: React.FC<IProps> = ({ superheroes, isLoading }) => {
             flexWrap: "wrap",
           }}
         >
-          {favorites.map((favorite, index) => (
-            <Card
-              key={favorite.id}
-              superhero={favorite}
-              onClick={() => handleFavorites(favorite.id)}
-              showPill={index + 1 === favorites.length}
-              scrollIntoView={true}
-              isFavorite
-            />
-          ))}
+          <AnimatePresence>
+            {favorites.map((favorite, index) => (
+              <MotionCard
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={{ duration: 0.3 }}
+                key={favorite.id}
+                superhero={favorite}
+                onClick={() => handleFavorites(favorite.id)}
+                showPill={index + 1 === favorites.length}
+                scrollIntoView={true}
+                isFavorite
+              />
+            ))}
+          </AnimatePresence>
         </div>
       ) : (
         <div className={styles.container}>
