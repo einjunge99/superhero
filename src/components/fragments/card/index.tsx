@@ -2,20 +2,17 @@ import { CSSProperties } from "react";
 import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
 import Typography from "../../elements/typography";
+import { ISuperhero } from "../../../pages/landing";
 
 // TODO: Set to Superhero interface once created
 interface IProps {
   onClick: () => void;
   style?: CSSProperties;
-  superhero: {
-    image: string;
-    name: string;
-    fullName: string;
-  };
+  superhero: ISuperhero;
 }
 
 export const Card: React.FC<IProps> = ({
-  superhero: { fullName, image, name },
+  superhero: { fullName, image, name, score = 8.4 },
   style,
   onClick,
 }) => {
@@ -31,15 +28,32 @@ export const Card: React.FC<IProps> = ({
         <img className={styles.avatar} src={image} />
         <div className={styles.info}>
           <Typography tag="h2">{name}</Typography>
-          <Typography tag="h4">Real name: {fullName}</Typography>
+          <Typography tag="h4" style={{ color: "rgba(255, 255, 255, 0.49)" }}>
+            Real name: {fullName}
+          </Typography>
           <div
             style={{
               display: "flex",
               gap: "4px",
+              alignItems: "center",
             }}
           >
             <Icon name="fist" />
-            <h4>8.4/10</h4>
+            <Typography tag="h4" style={{ fontWeight: 600 }}>
+              {score}
+            </Typography>
+            <Typography
+              tag="h4"
+              style={{ fontWeight: 275, color: "rgba(255, 255, 255, 0.49)" }}
+            >
+              /
+            </Typography>
+            <Typography
+              tag="h4"
+              style={{ fontWeight: 275, color: "rgba(255, 255, 255, 0.49)" }}
+            >
+              10
+            </Typography>
           </div>
         </div>
         <div className={styles.icon}>

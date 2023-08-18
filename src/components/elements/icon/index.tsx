@@ -5,6 +5,7 @@ import search from "../../../assets/search.svg";
 import cancel from "../../../assets/cancel.svg";
 import arrowUp from "../../../assets/arrow-up.svg";
 import styles from "./styles.module.scss";
+import cx from "classnames";
 
 export type IconName =
   | "medium-heart"
@@ -48,6 +49,7 @@ export const Icon: React.FC<IProps> = ({
 
   const icon = (
     <img
+      onClick={!shape ? onClick : undefined}
       src={svgUrl}
       alt={name}
       style={{
@@ -61,7 +63,7 @@ export const Icon: React.FC<IProps> = ({
   return (
     <div
       onClick={onClick}
-      className={styles[shape]}
+      className={cx(styles.shape, styles[shape])}
       style={{
         backgroundColor: fillColor,
         width: shapeSize,
