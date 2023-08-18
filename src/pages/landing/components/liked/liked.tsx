@@ -48,6 +48,7 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
         >
           {favorites.map((favorite, index) => (
             <Card
+              key={favorite.id}
               superhero={favorite}
               onClick={() => handleFavorites(favorite.id)}
               showPill={index + 1 === favorites.length}

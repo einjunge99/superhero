@@ -4,11 +4,13 @@ interface IProps {
   children: ReactNode;
 }
 
+export const PADDING = 129;
+
 export const Layout: React.FC<IProps> = ({ children }) => {
   return (
     <div
       style={{
-        padding: `50px 129px 85px 129px`,
+        padding: `50px ${PADDING}px 85px ${PADDING}px`,
       }}
     >
       {children}

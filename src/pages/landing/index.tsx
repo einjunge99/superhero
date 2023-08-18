@@ -7,6 +7,8 @@ import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
 import Typography from "../../components/elements/typography";
 import superheroes from "../../__mocks__/superheroes.json";
+import { PADDING } from "../../components/layout";
+import styles from "./styles.module.scss";
 
 const rawSuperheroes = superheroes;
 
@@ -96,7 +98,10 @@ export const LandingPage = () => {
   }, [superheroes, favoritesIds, searchQuery]);
 
   useEffect(() => {
-    const columnCount = calculateColumns(windowWidth, COLUMN_WIDTH);
+    const columnCount = calculateColumns(
+      windowWidth - PADDING * 2,
+      COLUMN_WIDTH
+    );
     const rowCount = Math.ceil(filteredSuperheroes.length / columnCount);
     setColumnCount(columnCount);
     setRowCount(rowCount);
@@ -137,21 +142,8 @@ export const LandingPage = () => {
     <>
       <Liked superheroes={superheroes} />
       <div style={{ marginTop: "50px" }} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            justifyContent: "space-between",
-          }}
-        >
+      <div className={styles.superheroes}>
+        <div className={styles.bar}>
           <Typography tag="h1">All superheroes</Typography>
           <div
             style={{
@@ -174,8 +166,8 @@ export const LandingPage = () => {
             columnWidth={COLUMN_WIDTH}
             rowCount={rowCount}
             rowHeight={CARD_HEIGHT}
-            height={windowHeight * (2 / 3)}
-            width={columnCount * COLUMN_WIDTH}
+            height={windowHeight * (3 / 5)}
+            width={columnCount * (COLUMN_WIDTH + GUTTER_SIZE)}
             itemData={{
               superheroes: filteredSuperheroes,
               linearIndex,
