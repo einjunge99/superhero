@@ -1,3 +1,4 @@
+import styles from "./styles.module.scss";
 import { ISuperhero } from "../..";
 import { Icon } from "../../../../components/elements/icon";
 import Typography from "../../../../components/elements/typography";
@@ -73,15 +74,7 @@ export const Liked: React.FC<IProps> = ({ superheroes, isLoading }) => {
           ))}
         </div>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "15px",
-            padding: "48px 0",
-          }}
-        >
+        <div className={styles.container}>
           <Icon name="medium-heart" size="2" />
           <Typography tag="h3">You haven’t liked any superhero yet</Typography>
         </div>
