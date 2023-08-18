@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "../../components/elements/icon";
 import { Input } from "../../components/elements/input";
-import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
-import { Card } from "../../components/fragments/card";
+import { FixedSizeGrid as Grid } from "react-window";
 import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
 import Typography from "../../components/elements/typography";
 import superheroes from "../../__mocks__/superheroes.json";
 import { PADDING } from "../../components/layout";
 import styles from "./styles.module.scss";
+import { GUTTER_SIZE } from "./constants";
+import { Cell } from "./components/cell";
 
 const rawSuperheroes = superheroes;
 
@@ -23,36 +24,6 @@ const parsedSuperheroes = rawSuperheroes.map((superhero) => ({
   ).toFixed(1),
 }));
 
-const Cell: React.FC<GridChildComponentProps> = ({
-  columnIndex,
-  rowIndex,
-  data,
-  style,
-}) => {
-  const [handleFavorites] = useStore((state) => [state.handleFavorites]);
-
-  const { superheroes, linearIndex } = data;
-  const itemIndex = linearIndex(rowIndex, columnIndex);
-  const superhero = superheroes[itemIndex];
-  if (!superhero) {
-    return null;
-  }
-
-  return (
-    <Card
-      superhero={superhero}
-      onClick={() => handleFavorites(superhero.id)}
-      style={{
-        ...style,
-        left: style.left + GUTTER_SIZE,
-        top: style.top + GUTTER_SIZE,
-        width: style.width - GUTTER_SIZE,
-        height: style.height - GUTTER_SIZE,
-      }}
-    />
-  );
-};
-
 export interface ISuperhero {
   id: number;
   image: string;
@@ -61,7 +32,6 @@ export interface ISuperhero {
   score: string;
 }
 
-const GUTTER_SIZE = 10;
 const COLUMN_WIDTH = 285;
 const CARD_HEIGHT = 184;
 
