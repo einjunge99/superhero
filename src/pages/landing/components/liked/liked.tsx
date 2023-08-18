@@ -3,13 +3,15 @@ import { Icon } from "../../../../components/elements/icon";
 import Typography from "../../../../components/elements/typography";
 import { Card } from "../../../../components/fragments/card";
 import { Collapsible } from "../../../../components/fragments/collapsible";
+import { CustomSkeleton } from "../../../../components/fragments/skeleton/skeleton";
 import { useStore } from "../../../../store";
 
 interface IProps {
   superheroes: ISuperhero[];
+  isLoading?: boolean;
 }
 
-export const Liked: React.FC<IProps> = ({ superheroes }) => {
+export const Liked: React.FC<IProps> = ({ superheroes, isLoading }) => {
   const [
     favoritesIds,
     isCollapsibleOpen,
@@ -25,6 +27,10 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
   const favorites = superheroes.filter((superhero) =>
     favoritesIds.includes(superhero.id)
   );
+
+  if (isLoading) {
+    return <CustomSkeleton count={4} />;
+  }
 
   return (
     <Collapsible

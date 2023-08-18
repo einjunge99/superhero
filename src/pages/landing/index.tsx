@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Icon } from "../../components/elements/icon";
-import { Input } from "../../components/elements/input";
-import { FixedSizeGrid as Grid } from "react-window";
+import { useEffect, useState } from "react";
 import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
-import Typography from "../../components/elements/typography";
 import { PADDING } from "../../components/layout";
-import styles from "./styles.module.scss";
-import { GUTTER_SIZE } from "./constants";
-import { Cell } from "./components/cell";
 import { useSuperheroes } from "../../services/superheroes";
+import { Superheroes } from "./components/superheroes";
 
 // TODO: If rendering, show a skeleton component instead
 
@@ -22,7 +16,6 @@ export interface ISuperhero {
 }
 
 const COLUMN_WIDTH = 285;
-const CARD_HEIGHT = 184;
 
 export const LandingPage = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -94,65 +87,24 @@ export const LandingPage = () => {
     setWindowWidth(window.innerWidth);
   };
 
-  const clearSearch = () => {
-    setSearchQuery("");
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
   const calculateColumns = (width: number, minCardWidth: number) => {
     const columns = Math.floor(width / minCardWidth);
     return columns < 1 ? 1 : columns;
   };
 
-  const linearIndex = (rowIndex: number, columnIndex: number) => {
-    if (!columnCount) {
-      return;
-    }
-    return rowIndex * columnCount + columnIndex;
-  };
-
   return (
     <>
-      <Liked superheroes={superheroes} />
+      <Liked superheroes={superheroes} isLoading={isLoading} />
       <div style={{ marginTop: "50px" }} />
-      <div className={styles.superheroes}>
-        <div className={styles.bar}>
-          <Typography tag="h1">All superheroes</Typography>
-          <div
-            style={{
-              width: "371px",
-            }}
-          >
-            <Input
-              placeholder="Search"
-              onChange={handleSearch}
-              value={searchQuery}
-              prefix={<Icon name="search" />}
-              suffix={<Icon name="cancel" onClick={clearSearch} />}
-            />
-          </div>
-        </div>
-        <div style={{ marginTop: "34px" }} />
-        {rowCount !== undefined && columnCount !== undefined && (
-          <Grid
-            columnCount={columnCount}
-            columnWidth={COLUMN_WIDTH}
-            rowCount={rowCount}
-            rowHeight={CARD_HEIGHT}
-            height={windowHeight * (3 / 5)}
-            width={columnCount * (COLUMN_WIDTH + GUTTER_SIZE)}
-            itemData={{
-              superheroes: filteredSuperheroes,
-              linearIndex,
-            }}
-          >
-            {Cell}
-          </Grid>
-        )}
-      </div>
+      <Superheroes
+        columnCount={columnCount}
+        rowCount={rowCount}
+        windowHeight={windowHeight}
+        superheroes={filteredSuperheroes}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
+        isLoading={isLoading}
+      />
     </>
   );
 };
