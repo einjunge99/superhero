@@ -3,21 +3,24 @@ import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
 import Typography from "../../elements/typography";
 import { ISuperhero } from "../../../pages/landing";
+import { Pill } from "../../elements/pill";
 
-// TODO: Set to Superhero interface once created
 interface IProps {
   onClick: () => void;
   style?: CSSProperties;
   superhero: ISuperhero;
+  showPill?: boolean;
 }
 
 export const Card: React.FC<IProps> = ({
-  superhero: { fullName, image, name, score = 8.4 },
+  superhero: { fullName, image, name, score },
+  showPill,
   style,
   onClick,
 }) => {
   return (
     <div className={styles.container} style={style}>
+      {showPill && <Pill label="Liked recently" className={styles.pill} />}
       <div
         className={styles.image}
         style={{

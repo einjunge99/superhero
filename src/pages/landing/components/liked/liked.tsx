@@ -46,10 +46,11 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
             flexWrap: "wrap",
           }}
         >
-          {favorites.map((favorite) => (
+          {favorites.map((favorite, index) => (
             <Card
               superhero={favorite}
               onClick={() => handleFavorites(favorite.id)}
+              showPill={index + 1 === favorites.length}
             />
           ))}
         </div>
