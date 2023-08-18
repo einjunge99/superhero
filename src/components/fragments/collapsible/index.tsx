@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import cx from "classnames";
 
 interface IProps {
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   icon: ReactNode;
   prefix?: ReactNode;

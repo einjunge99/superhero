@@ -5,6 +5,7 @@ import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 import { Card } from "../../components/fragments/card";
 import { Liked } from "./components/liked/liked";
 import { useStore } from "../../store";
+import Typography from "../../components/elements/typography";
 
 const rawSuperheroes = [
   {
@@ -321,7 +322,7 @@ export const LandingPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <div>All superheroes</div>
+          <Typography tag="h1">All superheroes</Typography>
           <div
             style={{
               width: "371px",

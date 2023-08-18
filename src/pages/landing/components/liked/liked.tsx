@@ -1,5 +1,6 @@
 import { ISuperhero } from "../..";
 import { Icon } from "../../../../components/elements/icon";
+import Typography from "../../../../components/elements/typography";
 import { Card } from "../../../../components/fragments/card";
 import { Collapsible } from "../../../../components/fragments/collapsible";
 import { useStore } from "../../../../store";
@@ -28,7 +29,7 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
           shapeSize="35px"
         />
       }
-      title="Liked"
+      title={<Typography tag="h1">Liked</Typography>}
       icon={
         <Icon
           name="arrow-up"
@@ -58,7 +59,7 @@ export const Liked: React.FC<IProps> = ({ superheroes }) => {
           }}
         >
           <Icon name="medium-heart" size="2" />
-          <div> You haven’t liked any superhero yet</div>
+          <Typography tag="h3">You haven’t liked any superhero yet</Typography>
         </div>
       )}
     </Collapsible>

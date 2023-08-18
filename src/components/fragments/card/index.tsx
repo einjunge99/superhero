@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 import { Icon } from "../../elements/icon";
 import styles from "./styles.module.scss";
+import Typography from "../../elements/typography";
 
 // TODO: Set to Superhero interface once created
 interface IProps {
@@ -29,20 +30,8 @@ export const Card: React.FC<IProps> = ({
       <div className={styles.content}>
         <img className={styles.avatar} src={image} />
         <div className={styles.info}>
-          <h2
-            style={{
-              fontSize: "20px",
-            }}
-          >
-            {name}
-          </h2>
-          <h3
-            style={{
-              fontSize: "12px",
-            }}
-          >
-            Real name: {fullName}
-          </h3>
+          <Typography tag="h2">{name}</Typography>
+          <Typography tag="h4">Real name: {fullName}</Typography>
           <div
             style={{
               display: "flex",

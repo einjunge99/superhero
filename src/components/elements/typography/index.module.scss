@@ -1,0 +1,45 @@
+.overrides {
+  margin: 0;
+}
+/* HEADINGS */
+.h1 {
+    composes: overrides;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.725px;
+}
+
+.h2 {
+  composes: overrides;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 143%; /* 28.6px */
+  letter-spacing: 0.3px;
+}
+
+.h3 {
+  composes: overrides;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.725px;
+}
+
+.h4 {
+  composes: overrides;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.273px;
+}
+
+/* PARAGRAPHS */
+.p {
+  font-weight: 600;
+  font-size: 17.32px;
+}
